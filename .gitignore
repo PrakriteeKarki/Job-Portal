@@ -1,0 +1,8 @@
+.env
+env/
+# Logs
+*.log
+db.sqlite3
+*.sql
+# Django migrations cache
+*.pyc

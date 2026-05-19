@@ -1,0 +1,25 @@
+from django.db import models 
+
+EmploymentType = [
+    ("Full Time","Full Time"),
+     ("Part Time", "Part Time"),
+         ("Contract", "Contract")
+
+
+]
+LocationTypeChoice = [
+    ("Onsite","Onsite"),
+    ("Hybrid", "Hybrid"),
+    ("Remote", "Remote"),
+]
+ExperienceLevel = [
+    ("Entry Level", "Entry Level"),
+    ("Mid Level", "Mid Level"),
+    ("Senior", "Senior"),
+]
+
+class ApplicationStatus(models.TextChoices):
+    APPLIED = ("APPLIED","APPLIED")
+    REJECTED = ("REJECTED","REJECTED")
+    INTERVIEW = ("INTERVIEW","INTERVIEW")
+    
