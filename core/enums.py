@@ -18,6 +18,12 @@ ExperienceLevel = [
     ("Senior", "Senior"),
 ]
 
+class PaymentStatus(models.TextChoices):
+        PENDING = ("PENDING", "Pending")
+        PAID = ("PAID", "Paid")
+        FAILED = ("FAILED", "Failed")
+
+
 class ApplicationStatus(models.TextChoices):
     APPLIED = ("APPLIED","APPLIED")
     REJECTED = ("REJECTED","REJECTED")

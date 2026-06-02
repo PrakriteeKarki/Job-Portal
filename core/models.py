@@ -30,15 +30,15 @@ class JobAdertQuerySet(models.QuerySet):
         if keyword:
             query &= (
                   Q(title__icontains=keyword)
-                | Q(comapany_name__icontains=keyword)
+                | Q(company_name__icontains=keyword)
                 | Q(description__icontains=keyword)
                 | Q(skills__icontains=keyword)
             )
 
-            if location:
-                query &= Q(location__icontains=location)
+        if location:
+            query &= Q(location__icontains=location)
 
-            return self.active().filter(query)
+        return self.active().filter(query)
 
 
 
@@ -57,12 +57,14 @@ class JobAdvert(BaseModel):
     deadline = models.DateField()
     skills = models.CharField(max_length=400)
     created_by = models.ForeignKey(Account,on_delete=models.CASCADE)
-    application_fee = models.DecimalField(
-        max_digits=6,
-        decimal_places=2,
-        default=5,
+    # application_fee = models.DecimalField(
+    #     max_digits=6,
+    #     decimal_places=2,
+    #     default=5,
+    #     null=True,
+    #     blank=True,
         
-    )
+   # )
 
     objects = JobAdertQuerySet.as_manager()
 
@@ -79,16 +81,20 @@ class JobAdvert(BaseModel):
     
     def get_absolute_url(self):
         return reverse("job_advert",kwargs = {"advert_id":self.id})
+    def __str__(self):
+        return self.company_name
     
     
 class JobApplication(BaseModel):
     name = models.CharField(max_length=50)
     email = models.EmailField()
     portfolio_url = models.URLField()
-    cv = models.FileField()
+    cv = models.FileField(upload_to="cvs/")
     status = models.CharField(max_length=30,choices=ApplicationStatus.choices,default=ApplicationStatus.APPLIED)
     job_advert = models.ForeignKey(JobAdvert,related_name="applications",on_delete=models.CASCADE)
-    payment_status = models.CharField(max_length=20,choices=PaymentStatus.choices,default=PaymentStatus.PENDING)
-    paid_amount = models.DecimalField(max_digits=6,decimal=2,
-                                      null=True,blank=True)
+    # payment_status = models.CharField(max_length=20,choices=PaymentStatus.choices,default=PaymentStatus.PENDING)
+    # paid_amount = models.DecimalField(max_digits=6,decimal_places=2,null=True,blank=True)
     applicant = models.ForeignKey(Account,related_name="job_applicants",on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.email

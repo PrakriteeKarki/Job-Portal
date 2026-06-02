@@ -1,12 +1,18 @@
 <section class="homepage-header">
   <div class="homepage-header-buttons">
       {% if user.is_authenticated %}
-           
+      {% if user.user_type == "EMPLOYER" %}
           <a class="" href="{% url 'create_advert' %}">Create Advert</a>
-          <a href="{% url 'my_jobs' %}">My Jobs</a>
-          <a href="{% url 'my_applications' %}">My Applications</a>
           <a href="{% url 'logout' %}">Logout</a>
+          <a href="{% url 'myjobs' %}">My Jobs</a>
+ 
+           {% elif user.user_type == "JOB_SEEKER" %}
+            <a href="{% url 'logout' %}">Logout</a>
+          <a href="{% url 'my-applications' %}">My Applications</a>
+         
+         {% endif %}
           
+           
           
       {% else %}                                                                            
       <a href="{% url 'login' %}">Login</a>

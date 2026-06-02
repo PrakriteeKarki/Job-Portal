@@ -1,4 +1,5 @@
 from django.db import models
+from .enums import UserType
 from django.contrib.auth.models import BaseUserManager,PermissionsMixin,AbstractBaseUser
 # Create your models here.
 
@@ -46,11 +47,8 @@ class MyAccountManager(BaseUserManager):
 
 class Account(AbstractBaseUser,PermissionsMixin):
 
-    USER_TYPE_CHOICES=(
-        ('jobseeker','Job Seeker'),
-        ('employer','Employer'),    
-    )
-    user_type = models.CharField(max_length=20,choices=USER_TYPE_CHOICES,default='jobseeker')
+    
+    user_type = models.CharField(max_length=20,choices=UserType.choices,default='JOB_SEEKER')
     email = models.EmailField(unique=True,max_length=100)
     first_name=models.CharField(max_length=100)
     last_name=models.CharField(max_length=100)

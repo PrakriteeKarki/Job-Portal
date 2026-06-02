@@ -1,0 +1,303 @@
+{% extends 'base.html' %}
+
+{% block title %}Apply Job{% endblock %}
+
+{% block content %}
+
+{% include 'header.html' %}
+
+<section class="detail-page">
+
+    <div class="detail-container">
+
+        <!-- LEFT SIDE : JOB INFO -->
+        <div class="job-detail">
+
+            <div style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            ">
+
+                <div>
+
+                    <h2>{{ job.title }}</h2>
+
+                    <p style="
+                        font-size: 18px;
+                        font-weight: bold;
+                        color: #555;
+                    ">
+                        {{ job.company_name }}
+                    </p>
+
+                </div>
+
+                <span class="small-btn">
+                    {{ job.employment_type }}
+                </span>
+
+            </div>
+
+            <hr style="margin: 20px 0; border: 0.5px solid #eee;">
+
+            <!-- JOB META -->
+            <div style="
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 20px;
+                margin-bottom: 25px;
+            ">
+
+                <div>
+                    <strong>📍 Location</strong>
+                    <p>{{ job.location }}</p>
+                </div>
+
+                <div>
+                    <strong>💼 Job Type</strong>
+                    <p>{{ job.job_type }}</p>
+                </div>
+
+                <div>
+                    <strong>⭐ Experience</strong>
+                    <p>{{ job.experience_level }}</p>
+                </div>
+
+                <!-- <div>
+                    <strong>💰 Application Fee</strong>
+                    <p>
+                        Rs. {{ job.application_fee }}
+                    </p>
+                </div> -->
+
+                <div>
+                    <strong>⏳ Deadline</strong>
+                    <p>{{ job.deadline }}</p>
+                </div>
+
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div style="margin-bottom: 30px;">
+
+                <h3 style="color: #9A2C47;">
+                    Job Description
+                </h3>
+
+                <p style="line-height: 1.8;">
+                    {{ job.description }}
+                </p>
+
+            </div>
+
+            <!-- SKILLS -->
+            <div>
+
+                <h3 style="color: #9A2C47;">
+                    Required Skills
+                </h3>
+
+                <div style="
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    margin-top: 15px;
+                ">
+
+                    {% for skill in job.skills.split %}
+
+                        <span style="
+                            background-color: #edf2f4;
+                            padding: 8px 14px;
+                            border-radius: 20px;
+                            font-size: 14px;
+                            font-weight: bold;
+                            color: #1b4965;
+                        ">
+                            {{ skill }}
+                        </span>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT SIDE : APPLICATION FORM -->
+        <div class="application-form">
+
+            <h3>Apply For This Job</h3>
+
+            <p style="margin-bottom: 20px;">
+                Fill out the form below.
+            </p>
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                <!-- NAME -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Full Name
+                    </label>
+
+                    {{ form.name }}
+
+                </div>
+
+                <!-- EMAIL -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Email Address
+                    </label>
+
+                    {{ form.email }}
+
+                </div>
+
+                <!-- PORTFOLIO -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Portfolio / LinkedIn URL
+                    </label>
+
+                    {{ form.portfolio_url }}
+
+                </div>
+
+                <!-- CV -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Upload CV / Resume
+                    </label>
+
+                    {{ form.cv }}
+
+                </div>
+
+                <!-- PAYMENT SECTION
+                <div style="
+                    margin: 25px 20px;
+                    padding: 20px;
+                    border: 1px solid #ddd;
+                    border-radius: 10px;
+                    background-color: #fff;
+                ">
+
+                    <h3 style="
+                        margin-top: 0;
+                        color: #9A2C47;
+                    ">
+                        Payment Details
+                    </h3>
+
+                    <div style="
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 15px;
+                    ">
+
+                        <span>
+                            Application Fee
+                        </span>
+
+                        <strong>
+                            Rs. {{ job.application_fee }}
+                        </strong>
+
+                    </div> -->
+
+                    <hr style="border: 0.5px solid #eee;">
+
+                    <!-- PAYMENT METHODS
+
+                    <div style="margin-top: 20px;">
+
+                        <label class="form-label">
+                            Payment Section.
+                        </label>
+
+                        <div style="
+                            display: flex;
+                            flex-direction: column;
+                            gap: 12px;
+                            margin-top: 10px;
+                        ">
+
+                            <label style="
+                                display: flex;
+                                align-items: center;
+                                gap: 10px;
+                                background: #f9f9f9;
+                                padding: 12px;
+                                border-radius: 8px;
+                                cursor: pointer;
+                            ">
+<button type="submit" class="esewa-btn">
+    Apply
+</button>
+                            </label>
+
+                           
+
+                        </div>
+
+                    </div> -->
+
+                    <!-- PAYMENT INFO
+
+                    <div style="
+                        margin-top: 20px;
+                        background-color: #edf2f4;
+                        padding: 15px;
+                        border-radius: 8px;
+                    ">
+
+                        <p style="margin: 0; font-size: 14px;">
+
+                            After clicking submit, you will be redirected
+                            to the payment gateway to complete payment.
+
+                        </p>
+
+                    </div>
+
+                </div> -->
+
+                <!-- ERRORS -->
+                {% if form.errors %}
+
+                    <div class="form-group">
+
+                        {{ form.errors }}
+
+                    </div>
+
+                {% endif %}
+
+                <!-- BUTTON -->
+                <button type="submit" class="btn">
+
+                    Submit Application
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

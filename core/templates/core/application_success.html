@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="auth-content">
+    <div class="auth-container">
+        <div class="auth-card">
+
+            <div class="auth-header">
+                <h2>Application Submitted</h2>
+            </div>
+
+            <div style="padding: 30px; text-align: center;">
+
+                <div class="message-container">
+                    <div class="message message-success">
+                        ✓ Your application has been submitted successfully.
+                    </div>
+                </div>
+
+                <h3 style="color:#9A2C47;">
+                    Thank You!
+                </h3>
+
+                <p>
+                    Your job application has been received and is currently
+                    under review by the employer.
+                </p>
+
+                <p>
+                    You can check the status of your application from your
+                    dashboard.
+                </p>
+
+                <div style="margin-top: 25px;">
+                    <a href="{% url 'home' %}" class="btn">
+                        Browse More Jobs
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

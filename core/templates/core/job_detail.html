@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ job.title }}{% endblock %}
+
+{% block content %}
+
+{% include 'header.html' %}
+
+<section class="detail-page">
+
+    <div class="detail-container">
+
+        <!-- LEFT SIDE : JOB DETAILS -->
+        <div class="job-detail">
+
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+
+                <div>
+                    <h2>{{ job.title }}</h2>
+                    <p style="font-size: 18px; font-weight: bold; color: #555;">
+                        {{ job.company_name }}
+                    </p>
+                </div>
+
+                <div>
+                    <span class="small-btn">
+                        {{ job.employment_type }}
+                    </span>
+                </div>
+
+            </div>
+
+            <hr style="margin: 20px 0; border: 0.5px solid #eee;">
+
+            <!-- JOB META INFO -->
+            <div style="
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 15px;
+                margin-bottom: 25px;
+            ">
+
+                <div>
+                    <strong>📍 Location</strong>
+                    <p>{{ job.location }}</p>
+                </div>
+
+                <div>
+                    <strong>💼 Job Type</strong>
+                    <p>{{ job.job_type }}</p>
+                </div>
+
+                <div>
+                    <strong>⭐ Experience</strong>
+                    <p>{{ job.experience_level }}</p>
+                </div>
+
+                <div>
+                    <strong>⏳ Deadline</strong>
+                    <p>{{ job.deadline }}</p>
+                </div>
+
+                <div>
+                    <strong>💰 Application Fee</strong>
+                    <p>Rs. {{ job.application_fee }}</p>
+                </div>
+
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div style="margin-bottom: 30px;">
+
+                <h3 style="color: #9A2C47;">Job Description</h3>
+
+                <p style="line-height: 1.8;">
+                    {{ job.description }}
+                </p>
+
+            </div>
+
+            <!-- SKILLS -->
+            <div>
+
+                <h3 style="color: #9A2C47;">Required Skills</h3>
+
+                <div style="
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    margin-top: 15px;
+                ">
+
+                    {% for skill in job.skills.split %}
+                        <span style="
+                            background-color: #edf2f4;
+                            padding: 8px 14px;
+                            border-radius: 20px;
+                            font-size: 14px;
+                            font-weight: bold;
+                            color: #1b4965;
+                        ">
+                            {{ skill }}
+                        </span>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT SIDE : APPLY CARD -->
+        <div class="application-form">
+
+            <h3>Apply For This Job</h3>
+
+            <p style="margin-bottom: 20px;">
+                Submit your application and start your journey with
+                <strong>{{ job.company_name }}</strong>.
+            </p>
+
+            {% if user.is_authenticated %}
+
+                <a href="{% url 'apply_job' job.pk %}" class="btn" style="text-decoration: none;">
+                    Apply Now
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'login' %}" class="btn" style="text-decoration: none;">
+                    Login To Apply
+                </a>
+
+            {% endif %}
+
+            <hr style="margin: 25px 0; border: 0.5px solid #ddd;">
+
+            <div>
+
+                <p>
+                    <strong>Posted By:</strong>
+                    {{ job.created_by }}
+                </p>
+
+                <p>
+                    <strong>Published:</strong>
+                    {{ job.created_at }}
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

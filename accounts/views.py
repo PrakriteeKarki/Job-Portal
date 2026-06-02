@@ -10,6 +10,7 @@ from accounts.serializers import RegisterSerializer,LoginSerializer
 from django.views import View
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.contrib.auth import authenticate, login
 from .models import Account
 from django.urls import reverse
 from .forms import RegistrationForm
@@ -27,14 +28,31 @@ from rest_framework.views import APIView
 import logging
 logger=logging.getLogger('__name__')
 
+# class RegisterApiView(APIView):
+#     def post(self, request):
+#         serializer = RegisterSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
 class RegisterApiView(APIView):
-    def post(self, request):
+    
+    def post(self,request):
+
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
+
+
+
+
+
+
 class Register(View):
 
     def get(self, request):
@@ -76,7 +94,7 @@ class Register(View):
                 logger.warning("Form is invalid")
                 logger.warning(form.errors)
 
-                return render('accounts/register.html', {
+                return render(request,'accounts/register.html', {
                     'form': form
                 })
 
@@ -119,32 +137,55 @@ def activate(request,uidb64,token):
     return redirect('Invalid_activation.')
 
 
-class  LoginApiView(APIView):
-    
+class LoginApiView(APIView):
+
     throttle_classes = [LoginThrottle]
 
     def post(self,request):
-        print("LOGIN VIEW HIT")
-        print(request.body)
+        
         serializer = LoginSerializer(data=request.data)
-
         if serializer.is_valid():
             user = serializer.validated_data['user']
+            
+            login(request,user)
 
             return Response({
-                'message':'Login successful.',
-                'user_id':user.id,
-                'email':user.email ,
-
+                'message' : 'Login successful.',
+                'user_id' : user.id,
+                'email' : user.email,
             },
             status = status.HTTP_200_OK)
         
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+# class  LoginApiView(APIView):
+    
+#     throttle_classes = [LoginThrottle]
+
+#     def post(self,request):
+#         print("LOGIN VIEW HIT")
+#         print(request.body)
+#         serializer = LoginSerializer(data=request.data)
+
+#         if serializer.is_valid():
+#             user = serializer.validated_data['user']
+
+#             return Response({
+#                 'message':'Login successful.',
+#                 'user_id':user.id,
+#                 'email':user.email ,
+
+#             },
+#             status = status.HTTP_200_OK)
+        
+#         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
 
 class Login(View):
-
-    
 
     logger = logging.getLogger(__name__)
 
@@ -159,23 +200,24 @@ class Login(View):
             messages.error(request, "Email and password are required")
             return render(request, 'accounts/login.html')
         
-        try:
-            user = Account.objects.get(email=email)
-        except Account.DoesNotExist:
-            messages.error(request, "Invalid credentials")
-            return render(request, 'accounts/login.html')
         
-        if not user.check_password(password):
-            messages.error(request, "Invalid credentials")
-            return render(request, 'accounts/login.html')
+        user = authenticate(request, email=email, password=password)
+         
+        if user is None:
+           messages.error(request, "Invalid credentials")
+           return render(request, 'accounts/login.html')
+        
         
         if not user.is_active:
             messages.error(request, "Account is not active")
             return render(request, 'accounts/login.html')
         
-        request.session['user_id'] = user.id 
-        request.session['user_email'] = user.email 
+        login(request, user)
 
         messages.success(request,"Login Successful.")
-        return render(request,'core/home_guest.html')
+        return redirect('home')
     
+class LogOutAPIView(APIView):
+
+    def post(self,request):
+        pass

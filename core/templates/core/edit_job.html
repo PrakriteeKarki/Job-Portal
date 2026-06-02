@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Job{% endblock %}
+
+{% block content %}
+
+{% include 'header.html' %}
+
+<section class="auth-content">
+
+    <div class="auth-container">
+
+        <div class="auth-card">
+
+            <!-- HEADER -->
+            <div class="auth-header">
+
+                <h2>Edit Job</h2>
+
+            </div>
+
+            <!-- FORM -->
+            <form method="POST",action="{% url 'myjobs' %}">
+
+                {% csrf_token %}
+
+                <!-- TITLE -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Job Title
+                    </label>
+
+                    {{ form.title }}
+
+                </div>
+
+                <!-- COMPANY -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Company Name
+                    </label>
+
+                    {{ form.company_name }}
+
+                </div>
+
+                <!-- LOCATION -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Location
+                    </label>
+
+                    {{ form.location }}
+
+                </div>
+
+                <!-- JOB TYPE -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Job Type
+                    </label>
+
+                    {{ form.job_type }}
+
+                </div>
+
+                <!-- EMPLOYMENT TYPE -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Employment Type
+                    </label>
+
+                    {{ form.employment_type }}
+
+                </div>
+
+                <!-- EXPERIENCE -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Experience Level
+                    </label>
+
+                    {{ form.experience_level }}
+
+                </div>
+
+                <!-- APPLICATION FEE -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Application Fee
+                    </label>
+
+                    {{ form.application_fee }}
+
+                </div>
+
+                <!-- DEADLINE -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Deadline
+                    </label>
+
+                    {{ form.deadline }}
+
+                </div>
+
+                <!-- SKILLS -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Skills
+                    </label>
+
+                    {{ form.skills }}
+
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Job Description
+                    </label>
+
+                    {{ form.description }}
+
+                </div>
+
+                <!-- ERRORS -->
+                {% if form.errors %}
+
+                    <div class="form-group">
+
+                        {{ form.errors }}
+
+                    </div>
+
+                {% endif %}
+
+                <!-- BUTTON -->
+                <button type="submit" class="btn">
+
+                    Update Job
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
